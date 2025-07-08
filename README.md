@@ -36,3 +36,131 @@ This project implements a Quantum Random Number Generator (QRNG) using IBM Quant
 | Security        | `.env` + `.gitignore` to hide secrets   |
 
 ---
+
+## ⚙️ Setup Instructions
+
+### 1. 🧬 Clone the Repository
+
+```bash
+git clone https://github.com/radhikajamwal/Quantum-Random-Number-Generator.git
+cd Quantum-Random-Number-Generator
+```
+
+### 2.🔐 Create `.env` File
+
+In the root folder, create a .env file and add your IBM Quantum API token:
+```bash
+TOKEN=your_ibmq_token_here
+```
+
+### 3. 📦 Install Dependencies
+
+Make sure Python 3.11+ is installed and IBM account is active
+
+### 4. 🚀 Run the Django Server
+
+```bash
+python manage.py runserver
+```
+Open in browser: http://127.0.0.1:8000
+
+---
+
+## 📡 API Usage
+
+🔸 Endpoint: /random
+Method: POST
+
+Content-Type: application/json
+
+🔸 Sample Request:
+```bash
+{
+  "device": "ibmq_qasm_simulator",
+  "min": 0,
+  "max": 100
+}
+```
+
+🔸 Sample Response:
+```bash
+{
+  "result": 47,
+  "entropy": 4.91,
+  "bitstrings": {
+    "01001": 57,
+    "10011": 43
+  }
+}
+```
+---
+
+## 🔢 Entropy Calculation
+
+Shannon entropy is used to measure unpredictability of the bitstring distribution:
+```bash
+H(X) = -Σ p(x) * log₂(p(x))
+```
+🔸 Ideal entropy for 5 qubits = 5.0
+
+🔸 Higher entropy = better randomness
+
+---
+
+## 📁 Project Structure
+
+```bash
+qsite/
+├── qrng/              # Django app (views, URLs)
+│   ├── views.py
+│   └── urls.py
+├── templates/         # Frontend templates
+│   └── index.html
+├── static/            # CSS/JS assets (optional)
+├── qsite/             # Django config
+├── .env               # Your IBM Quantum token (ignored in git)
+├── .gitignore
+├── manage.py
+└── README.md
+```
+---
+
+## ✅ .gitignore
+
+```bash 
+.env
+__pycache__/
+*.pyc
+*.log
+db.sqlite3
+```
+---
+
+## 🛡️ Security Notes
+
+🔸 Use os.getenv("TOKEN") in your code to fetch the API key
+
+🔸 Never hardcode secrets in Python files
+
+🔸 Revoke/reset your IBM Q token if accidentally exposed
+
+---
+
+## 📖 References
+
+[Qiskit Documentation](https://quantum.cloud.ibm.com/docs/en)
+
+[IBM Quantum Platform](https://www.ibm.com/quantum)
+
+[Django Docs](https://docs.djangoproject.com/en/5.2/)
+
+[Shannon Entropy (Wikipedia)](https://en.wikipedia.org/wiki/Entropy_(information_theory))
+
+---
+
+## 👩‍💻 Author  
+
+**Radhika Jamwal**  
+🔗 [LinkedIn](https://www.linkedin.com/in/radhika-jamwal-0631472b6)  
+🌐 [GitHub](https://github.com/radhikajamwal)
+
