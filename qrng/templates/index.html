@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Quantum Random Number Generator</title>
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/css/business-frontpage.css">
+
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+</head>
+<body>
+
+    <div class="container mt-5">
+        <h1 class="text-center">Quantum Random Number Generator</h1>
+        <hr>
+
+        <div class="form-group">
+            <label>Pick a quantum device:</label>
+            <select name="devices" id="devices" class="form-control">
+                <option value="ibmq_qasm_simulator">ibmq_qasm_simulator (32 qubits)</option>
+                <option value="ibmq_16_melbourne">ibmq_16_melbourne (15 qubits)</option>
+                <option value="ibmqx2">ibmq_5_yorktown (5 qubits)</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Min:</label>
+            <input type="number" id="min" class="form-control" value="0">
+        </div>
+
+        <div class="form-group">
+            <label>Max:</label>
+            <input type="number" id="max" class="form-control" value="100">
+        </div>
+
+        <div class="text-center">
+            <button class="btn btn-primary" onclick="generate()">Generate</button>
+        </div>
+
+        <div id="loader" class="loader"></div>
+
+        <h3 class="text-center mt-3" id="keyHeader"></h3>
+        <p class="text-center" id="keyView"></p>
+    </div>
+
+        <div>
+            <h4 class="text-center mt-3" id="entropyHeader"></h4>
+            <p class="text-center" id="entropyView"></p>
+
+        </div>
+
+    <script>
+        function generate() {
+            document.getElementById("loader").style.display = "block";
+            document.getElementById("keyHeader").innerHTML = "";
+            document.getElementById("keyView").innerHTML = "";
+
+            let targetDevice = document.getElementById("devices").value;
+            let min = parseInt(document.getElementById("min").value,10);
+            let max = parseInt(document.getElementById("max").value,10);
+
+            let data = JSON.stringify({ device: targetDevice, min: min, max: max });
+
+            $.ajax({
+                type: "POST",
+                url: "/random/",
+                contentType: "application/json",
+                data: data,
+                success: function(response) {
+                    document.getElementById("loader").style.display = "none";
+                    document.getElementById("keyHeader").innerHTML = "Generated Number:";
+                    document.getElementById("keyView").innerHTML = response.result;
+                    document.getElementById("entropyHeader").innerHTML = "Shannon Entropy:";
+                    document.getElementById("entropyView").innerHTML = response.entropy;
+                    
+                },
+                error: function() {
+                    document.getElementById("loader").style.display = "none";
+                    alert("Error generating random number. Try again.");
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .loader {
+            display: none;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #3498db;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+
+</body>
+</html>

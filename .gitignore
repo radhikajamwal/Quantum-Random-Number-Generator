@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Django
+*.sqlite3
+*.log
+.env
+.env.*
+
+# VS Code
+.vscode/
+
+# OS-specific
+.DS_Store
+Thumbs.db
+
+# Git
+.git/
+*.orig
+
+# Jupyter Notebooks (if used)
+.ipynb_checkpoints/
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv/
+
+# Node (if frontend involved)
+node_modules/
+package-lock.json
+yarn.lock
+
+# Qiskit (nothing special here but just in case)
+.qiskit/
+
+# Django migrations (optional, if auto-generated)
+**/migrations/*.pyc
+**/migrations/__pycache__/
